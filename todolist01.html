@@ -15,10 +15,30 @@
             new Vue({
                 el: '#box',
                 data: {
-                    myDate: [{
-                        name: 'xxx',
-                        age: xx,
-                    }]
+                    myDate: [
+                        // { name: 'xxx',age: 'xx',} //没有数据时
+                    ],
+                    username: '',
+                    age: '',
+                    nowIndex: -100,
+                },
+                methods: {
+                    add: function() {
+                        this.myDate.push({
+                            name: this.username,
+                            age: this.age
+                        });
+                        this.username = '';
+                        this.age = '';
+                    },
+                    daleteMsg: function(n) {
+                        //alert(n);
+                        if (n == -2) {
+                            this.myDate = [];
+                        } else {
+                            this.myDate.splice(n, 1);
+                        }
+                    }
                 }
             });
         };
@@ -30,15 +50,15 @@
         <form role="form">
             <div class="form-group">
                 <label for="username">用户名：</label>
-                <input type="text" id="username" class="form-control" placeholder="请输入用户名">
+                <input type="text" id="username" class="form-control" placeholder="请输入用户名" v-model="username">
             </div>
             <div class="form-group">
                 <label for="age">年龄：</label>
-                <input type="text" id="age" class="form-control" placeholder="请输入年纪">
+                <input type="text" id="age" class="form-control" placeholder="请输入年纪" v-model="age">
             </div>
             <div class="form-group">
-                <input type="button" value="添加" class="btn btn-primary">
-                <input type="button" value="重置" class="btn btn-danger">
+                <input type="button" value="添加" class="btn btn-primary" v-on:click=add()>
+                <input type="reset" value="重置" class="btn btn-danger">
             </div>
         </form>
         <hr>
@@ -51,15 +71,15 @@
                 <th class="text-center">操作</th>
             </tr>
             <!-- 数据写死状态 -->
-            <tr class="text-center">
-                <td>1</td>
-                <td>GOOGLE</td>
-                <td>20</td>
+            <tr class="text-center" v-for="item in myDate">
+                <td>{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#layer">DEL</button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#layer" v-on:click="nowIndex=$index">DEL</button>
                 </td>
             </tr>
-            <tr class="text-center">
+            <!-- <tr class="text-center">
                 <td>2</td>
                 <td>facebook</td>
                 <td>10</td>
@@ -74,13 +94,13 @@
                 <td>
                     <button class="btn btn-danger btn-sm">DEL</button>
                 </td>
-            </tr>
-            <tr>
+            </tr> -->
+            <tr v-show="myDate.length!=0">
                 <td colspan="4" class="text-right">
-                    <button class="btn btn-success btn-sm">DEL ALL</button>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#layer" v-on:click="nowIndex=-2">DEL ALL</button>
                 </td>
             </tr>
-            <tr>
+            <tr v-show="myDate.length==0">
                 <td colspan="4" class="text-center text-muted">
                     <p>暂无数据......</p>
                 </td>
@@ -88,7 +108,7 @@
         </table>
 
         <!-- 模态框 弹出框 -->
-        <div role="dialog" class="modal fade" id="layer">
+        <div role="dialog" class="modal fade" id="layer" data-index={{nowIndex}}>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -99,7 +119,7 @@
                     </div>
                     <div class="modal-body text-right">
                         <button data-dismiss="modal" class="btn btn-primary btn-sm">取消</button>
-                        <button data-dismiss="modal" class="btn btn-danger btn-sm">确认</button>
+                        <button data-dismiss="modal" class="btn btn-danger btn-sm" v-on:click="daleteMsg(nowIndex)">确认</button>
                     </div>
                 </div>
 
