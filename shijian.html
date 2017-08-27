@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/1.0.8/vue.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        window.onload = function() {
+            new Vue({
+                el: "#box",
+                data: {
+
+                },
+                methods: {
+                    show: function() {
+                        //show: function(ev) {
+                        //show: function(ev, b) {
+                        //alert(ev.clientX + ev.clientY);
+                        //alert(ev.clientY);
+                        // document.getElementById(box).innerHTML.('gui');
+                        alert(1);
+                        //ev.cancelBubble = true; //阻止冒泡方法一
+                    },
+                    // 事件冒泡
+                    show2: function() {
+                        alert(2);
+                    },
+
+                    //阻止默认行为
+                    zzmr: function() {
+                        // ev.preventDefault(); 原生方式
+                        alert(1);
+                    }
+
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div id="box">
+        <div id="box2">
+            <!-- <div id="box2" @click="show2()"> -->
+            <!-- <input type="button" value="按钮" v-on:click=show() /> </div> -->
+            <!-- <input type="button" value="按钮" @click=show($event,12) /> </div> 传参12 -->
+            <!-- <input type="button" value="按钮" @click=show($event) /> -->
+            <!-- <input type="button" value="按钮" @click.stop=show() /> -->
+            <!-- <input type="button" value="BTN" @contextmenu=zzmr($event) /> -->
+            <input type="button" value="BTN" @contextmenu.prevent=zzmr() />
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- v-on:简写为@，v-on:click简写为@click -->
+</body>
+
+</html>
